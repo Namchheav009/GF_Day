@@ -12,22 +12,41 @@ type Memory = {
 
 const MEMORIES: Memory[] = [
 {
-  image: "/a023f09a-e2a3-4a81-9dcf-2dec84768263.jpg",
+  image: "/2.png",
 
   alt: 'A couple embracing on the beach at sunset',
-  caption: 'That sunset with you will always be in my heart.'
+  caption: 'You show me that love is not just a feeling, but a choice we make every day.'
 },
 {
-  image: "/66930440-97e0-4211-a507-8fcad044efd0.jpg",
+  image: "/3-1.png",
 
   alt: 'A couple cuddling indoors surrounded by warm string lights',
-  caption: 'Every ordinary moment becomes special with you.'
+  caption: 'I wanna hug you forever and never let go.'
 },
 {
-  image: "/cf871df9-d03b-4f54-91e0-ababfe9af993.jpg",
+  image: "/4.png",
 
   alt: 'A couple overlooking a beautiful coastal landscape',
-  caption: 'Adventures are better because I have you.'
+  caption: 'Sweet drink and sweet kisses, that’s what I want with you.'
+},
+{
+  image: "/6.png",
+
+  alt: 'A couple overlooking a beautiful coastal landscape',
+  caption: 'Firt time I met you, I knew you were the one for me. You are my everything.'
+},
+{
+  image: "/5.png",
+
+  alt: 'A couple cuddling indoors surrounded by warm string lights',
+  caption: 'Oun leap always cutie, I love you so much and I will always love you.'
+}
+,
+{
+  image: "/7.png",
+
+  alt: 'A couple cuddling indoors surrounded by warm string lights',
+  caption: 'Hold your hand, feel very comfortable and warm, I love you so much.'
 }];
 
 
@@ -36,13 +55,13 @@ export function Memories() {
     <section
       id="memories"
       aria-labelledby="memories-heading"
-      className="relative bg-[#fffaf8] px-6 py-16 sm:px-10">
+      className="relative bg-[#fffaf8] px-4 py-12 sm:px-10 sm:py-16">
       
       <FloatingHearts />
       <div className="relative mx-auto w-full max-w-[1180px]">
         <SectionHeading id="memories-heading">Our Sweet Memories</SectionHeading>
 
-        <div className="mt-10 grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-7 lg:grid-cols-3">
           {MEMORIES.map((memory, index) =>
           <motion.figure
             key={memory.caption}
@@ -56,7 +75,7 @@ export function Memories() {
                 <img
                 src={memory.image}
                 alt={memory.alt}
-                className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                className="h-52 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-56" />
               
                 <span className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 shadow-soft">
                   <HeartIcon

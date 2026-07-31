@@ -11,7 +11,7 @@ export function Letter() {
     <section
       id="letter"
       aria-labelledby="letter-heading"
-      className="relative bg-[#fffaf8] px-6 py-16 sm:px-10">
+      className="relative bg-[#fffaf8] px-4 py-12 sm:px-10 sm:py-16">
       
       <motion.div
         initial={{ opacity: 0, y: 26 }}
@@ -26,18 +26,19 @@ export function Letter() {
           className="h-64 w-full object-cover md:h-full" />
         
 
-        <div className="px-8 py-10 sm:px-12">
+        <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-12">
           <SectionHeading id="letter-heading">A Letter For You</SectionHeading>
 
-          <p className="mt-7 text-[16px] leading-[1.85] text-neutral-700">
-            My love, thank you for being the most wonderful part of my life. You make every day
-            brighter, every moment sweeter, and every dream worth chasing. I am so grateful to have
-            you by my side. Today and always, I want you to know that you are my heart, my
-            happiness, and my forever.
+          <p className="mt-5 text-[15px] leading-[1.8] text-neutral-700 sm:mt-7 sm:text-[16px]">
+            Pov meas, We argue sometimes, but I want you to know that I love you more than anything in this world.
+            You are my sunshine, my strength, and my everything.Bong will always be here for you, through the good times and the bad.
+             I promise to support you, to listen to you, and to love you unconditionally.I will never let you down, 
+             and I will always be your biggest fan. You are the most important person in my life, and I am so grateful for you.
+            
           </p>
 
           <p className="mt-7 flex items-center gap-2.5 font-script text-2xl text-blush-700">
-            Always yours,
+            Namchheav with oun leap always,
             <HeartIcon size={20} className="text-blush-500" strokeWidth={1.6} aria-hidden="true" />
           </p>
         </div>

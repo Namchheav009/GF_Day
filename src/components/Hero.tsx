@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { HeartIcon, ImageIcon, MailIcon } from 'lucide-react';
 
-const HERO_IMAGE = "/ae88b9f2-d2fa-43a6-963c-d924cec6e124.jpg";
+const HERO_IMAGE = "/1.png";
 
 
 export function Hero() {
@@ -18,11 +18,11 @@ export function Hero() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: 'easeOut' }}
-          className="relative z-10 px-8 py-14 sm:px-12 lg:py-20 lg:pl-16">
+          className="relative z-10 px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-20 lg:pl-16">
           
           <h1
             id="hero-heading"
-            className="font-serif text-[2.9rem] font-extrabold leading-[1.06] tracking-tight text-blush-700 sm:text-6xl">
+            className="font-serif text-[2.35rem] font-extrabold leading-[1.06] tracking-tight text-blush-700 sm:text-[3.2rem] lg:text-6xl">
             
             Happy
             <br />
@@ -39,21 +39,21 @@ export function Hero() {
             </span>
           </h1>
 
-          <p className="mt-6 max-w-md text-[17px] leading-relaxed text-neutral-600">
+          <p className="mt-5 max-w-md text-[15px] leading-relaxed text-neutral-600 sm:mt-6 sm:text-[17px]">
             A little website made just for you, to celebrate how special you are to me.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-6 flex flex-col items-stretch gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center">
             <a
               href="#letter"
-              className="inline-flex items-center gap-2.5 rounded-full bg-blush-700 px-7 py-3.5 text-[15px] font-semibold text-white shadow-card transition-transform hover:-translate-y-0.5 hover:bg-blush-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blush-500 focus-visible:ring-offset-2">
+              className="inline-flex items-center justify-center gap-2.5 rounded-full bg-blush-700 px-6 py-3 text-[14px] font-semibold text-white shadow-card transition-transform hover:-translate-y-0.5 hover:bg-blush-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blush-500 focus-visible:ring-offset-2 sm:px-7 sm:py-3.5 sm:text-[15px]">
               
               <MailIcon size={18} strokeWidth={1.8} aria-hidden="true" />
               Open My Letter
             </a>
             <a
               href="#memories"
-              className="inline-flex items-center gap-2.5 rounded-full border border-blush-300 bg-white/80 px-7 py-3.5 text-[15px] font-semibold text-blush-700 shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blush-500 focus-visible:ring-offset-2">
+              className="inline-flex items-center justify-center gap-2.5 rounded-full border border-blush-300 bg-white/80 px-6 py-3 text-[14px] font-semibold text-blush-700 shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blush-500 focus-visible:ring-offset-2 sm:px-7 sm:py-3.5 sm:text-[15px]">
               
               <ImageIcon size={18} strokeWidth={1.8} aria-hidden="true" />
               See Our Memories
@@ -61,7 +61,7 @@ export function Hero() {
           </div>
         </motion.div>
 
-        <div className="relative min-h-[320px] lg:min-h-[540px]">
+        <div className="relative min-h-[260px] sm:min-h-[320px] lg:min-h-[540px]">
           <img
             src={HERO_IMAGE}
             alt="A couple smiling and touching foreheads, surrounded by pink roses and glowing lights"

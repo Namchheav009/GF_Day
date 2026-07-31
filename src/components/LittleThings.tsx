@@ -37,12 +37,12 @@ export function LittleThings() {
     <section
       id="little-things"
       aria-labelledby="little-things-heading"
-      className="relative bg-[#fdf4f2] px-6 py-16 sm:px-10">
+      className="relative bg-[#fdf4f2] px-4 py-12 sm:px-10 sm:py-16">
       
       <div className="mx-auto w-full max-w-[1180px]">
         <SectionHeading id="little-things-heading">Little Things I Adore</SectionHeading>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           {ITEMS.map((item, index) => {
             const Icon = item.icon;
             return (
@@ -52,7 +52,7 @@ export function LittleThings() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
-                className="flex items-start gap-4 rounded-3xl border border-blush-200 bg-white/90 px-5 py-6 shadow-soft transition-transform duration-300 hover:-translate-y-1">
+                className="flex items-start gap-4 rounded-3xl border border-blush-200 bg-white/90 px-4 py-5 shadow-soft transition-transform duration-300 hover:-translate-y-1 sm:px-5 sm:py-6">
                 
                 <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-blush-100">
                   <Icon size={24} className="text-blush-500" strokeWidth={1.6} />

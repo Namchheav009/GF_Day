@@ -9,8 +9,8 @@ function Flourish({ flip = false }: {flip?: boolean;}) {
   return (
     <svg
       aria-hidden="true"
-      width="72"
-      height="20"
+      width="56"
+      height="18"
       viewBox="0 0 72 20"
       fill="none"
       className={flip ? 'scale-x-[-1] text-blush-400' : 'text-blush-400'}>
@@ -31,11 +31,11 @@ function Flourish({ flip = false }: {flip?: boolean;}) {
 
 export function SectionHeading({ children, id }: SectionHeadingProps) {
   return (
-    <div className="flex items-center justify-center gap-4">
+    <div className="flex items-center justify-center gap-2 sm:gap-4">
       <Flourish />
       <h2
         id={id}
-        className="font-serif text-3xl md:text-[2.6rem] font-bold text-blush-700 tracking-tight text-center">
+        className="font-serif text-[1.9rem] font-bold tracking-tight text-blush-700 text-center sm:text-3xl md:text-[2.6rem]">
         
         {children}
       </h2>
