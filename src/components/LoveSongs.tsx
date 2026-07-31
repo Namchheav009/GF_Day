@@ -28,13 +28,13 @@ const songs: Song[] = [
   },
 ];
 
-function formatTime(seconds: number) {
-  if (!Number.isFinite(seconds) || seconds <= 0) {
+function formatTime(seconds: number | null | undefined) {
+  if (!Number.isFinite(seconds ?? NaN) || (seconds ?? 0) <= 0) {
     return '0:00';
   }
 
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
+  const mins = Math.floor(seconds! / 60);
+  const secs = Math.floor(seconds! % 60);
   return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
@@ -42,13 +42,14 @@ export function LoveSongs() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+  const [duration, setDuration] = useState<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const progressBarRef = useRef<HTMLDivElement | null>(null);
 
   const currentSong = songs[currentIndex];
-  const progressPercent = duration > 0 ? (progress / duration) * 100 : 0;
+  const progressPercent = duration && duration > 0 ? (progress / duration) * 100 : 0;
+  const durationText = duration === null ? '--:--' : formatTime(duration);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -60,7 +61,7 @@ export function LoveSongs() {
     audio.src = currentSong.audioUrl;
     audio.load();
     setProgress(0);
-    setDuration(0);
+    setDuration(null);
 
     if (isPlaying) {
       void audio.play().catch(() => setIsPlaying(false));
@@ -74,7 +75,10 @@ export function LoveSongs() {
     }
 
     const handleTimeUpdate = () => setProgress(audio.currentTime);
-    const handleLoadedMetadata = () => setDuration(audio.duration || 0);
+    const handleLoadedMetadata = () => {
+      const newDuration = Number.isFinite(audio.duration) ? audio.duration : null;
+      setDuration(newDuration);
+    };
     const handleEnded = () => {
       setIsPlaying(false);
       setProgress(0);
@@ -105,8 +109,12 @@ export function LoveSongs() {
     }
 
     try {
-      audio.src = currentSong.audioUrl;
-      audio.load();
+      if (audio.src !== currentSong.audioUrl) {
+        audio.src = currentSong.audioUrl;
+        audio.load();
+        setProgress(0);
+        setDuration(null);
+      }
       await audio.play();
       setIsPlaying(true);
     } catch (error) {
@@ -117,17 +125,28 @@ export function LoveSongs() {
 
   const switchSong = (direction: -1 | 1) => {
     setCurrentIndex((prev) => (prev + direction + songs.length) % songs.length);
+    setIsVisible(true);
   };
 
-  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+  const selectSong = (index: number) => {
+    setCurrentIndex(index);
+    setIsVisible(true);
+  };
+
+  const hidePlayer = () => {
+    setIsVisible(false);
+  };
+
+  const handleSeek = (e: React.PointerEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>) => {
     const audio = audioRef.current;
-    if (!audio || duration === 0) return;
+    if (!audio || duration === null || duration === 0) return;
 
     const bar = progressBarRef.current;
     if (!bar) return;
 
     const rect = bar.getBoundingClientRect();
-    const percent = (e.clientX - rect.left) / rect.width;
+    const clientX = 'clientX' in e ? e.clientX : 0;
+    const percent = (clientX - rect.left) / rect.width;
     const newTime = Math.max(0, Math.min(percent * duration, duration));
 
     audio.currentTime = newTime;
@@ -136,14 +155,14 @@ export function LoveSongs() {
 
   return (
     <>
+      <audio ref={audioRef} preload="metadata" />
       {isVisible ? (
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="fixed bottom-5 right-4 z-50 w-[340px] rounded-[26px] border border-[#efc9d4] bg-white/90 p-4 shadow-[0_18px_45px_rgba(200,126,148,0.22)] backdrop-blur sm:right-6"
+          className="fixed inset-x-4 bottom-5 z-50 mx-auto max-w-[340px] rounded-[26px] border border-[#efc9d4] bg-white/90 p-4 shadow-[0_18px_45px_rgba(200,126,148,0.22)] backdrop-blur sm:inset-x-auto sm:right-6"
         >
-          <audio ref={audioRef} preload="metadata" />
 
           <div className="flex items-start justify-between gap-3 border-b border-[#f0d2db] pb-3">
             <div className="flex items-center gap-3">
@@ -160,7 +179,7 @@ export function LoveSongs() {
             </div>
             <button
               type="button"
-              onClick={() => setIsVisible(false)}
+              onClick={hidePlayer}
               className="rounded-full border border-[#f0d2db] px-3 py-1 text-xs font-semibold text-[#b04f76] transition hover:bg-[#fff3f7]"
             >
               Hide
@@ -170,7 +189,7 @@ export function LoveSongs() {
           <div className="mt-4 flex items-center justify-between gap-3">
             <div>
               <p className="text-[1.03rem] font-semibold text-[#5f2f3f]">{currentSong.title} - {currentSong.artist}</p>
-              <p className="mt-1 text-xs text-neutral-500">{formatTime(progress)} • {formatTime(duration)}</p>
+              <p className="mt-1 text-xs text-neutral-500">{formatTime(progress)} • {durationText}</p>
             </div>
 
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#cc2b79] to-[#7a1e5c] text-white shadow-lg">
@@ -212,9 +231,17 @@ export function LoveSongs() {
             <div
               ref={progressBarRef}
               onClick={handleSeek}
-              className="h-1.5 flex-1 cursor-pointer rounded-full bg-[#f1d7df] hover:h-2 transition-all"
+              onPointerDown={handleSeek}
+              className="flex-1 cursor-pointer rounded-full bg-[#f1d7df] px-2 py-2 transition-all hover:bg-[#ecd1da]"
+              aria-label="Seek audio"
+              role="slider"
+              aria-valuemin={0}
+              aria-valuemax={duration ?? 0}
+              aria-valuenow={progress}
             >
-              <div className="h-full rounded-full bg-gradient-to-r from-[#c45b78] to-[#7a1e5c]" style={{ width: `${progressPercent}%` }} />
+              <div className="h-2 rounded-full bg-[#f1d7df]">
+                <div className="h-2 rounded-full bg-gradient-to-r from-[#c45b78] to-[#7a1e5c]" style={{ width: `${progressPercent}%` }} />
+              </div>
             </div>
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#fdf1f5] text-[#b04f76]">
               {isPlaying ? <PauseIcon size={14} strokeWidth={2.5} /> : <PlayIcon size={14} strokeWidth={2.5} fill="currentColor" />}
@@ -229,7 +256,7 @@ export function LoveSongs() {
                 <button
                   key={song.title}
                   type="button"
-                  onClick={() => setCurrentIndex(index)}
+                  onClick={() => selectSong(index)}
                   className={`w-full rounded-2xl border px-3 py-2 text-left text-sm transition ${
                     active ? 'border-[#d97ca5] bg-[#fff3f7] text-[#6f3243]' : 'border-transparent bg-[#fdf7fa] text-neutral-600'
                   }`}
