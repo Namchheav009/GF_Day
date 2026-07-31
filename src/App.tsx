@@ -1,9 +1,9 @@
-import React from 'react';
 import { NavBar } from './components/NavBar';
 import { Hero } from './components/Hero';
 import { Memories } from './components/Memories';
 import { LittleThings } from './components/LittleThings';
 import { Letter } from './components/Letter';
+import { LoveSongs } from './components/LoveSongs';
 import { Footer } from './components/Footer';
 
 export function App() {
@@ -16,6 +16,7 @@ export function App() {
         <Memories />
         <LittleThings />
         <Letter />
+        <LoveSongs />
       </main>
       <Footer />
     </div>);
